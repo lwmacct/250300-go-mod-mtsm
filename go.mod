@@ -1,4 +1,4 @@
-module github.com/lwmacct/250300-go-mtsm
+module github.com/lwmacct/250300-go-mod-mtsm
 
 go 1.24.0
 
