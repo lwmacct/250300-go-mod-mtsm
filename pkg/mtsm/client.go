@@ -7,6 +7,7 @@ import (
 
 	"github.com/go-resty/resty/v2"
 	"github.com/go-stack/stack"
+	"go.etcd.io/bbolt"
 )
 
 // client 表示指标客户端
@@ -29,7 +30,15 @@ type clientConfig struct {
 	Debug         bool // 调试模式
 	DisableWarn   bool // 是否禁用警告
 
-	resty *resty.Client
+	resty   *resty.Client
+	storage *bbolt.DB
+}
+
+// WithClientStorage 设置存储
+func WithClientStorage(storage *bbolt.DB) clientOption {
+	return func(c *clientConfig) {
+		c.storage = storage
+	}
 }
 
 // WithClientBaseURL 设置基本 URL
