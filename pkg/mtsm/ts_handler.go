@@ -70,7 +70,7 @@ func (t *TsHandler) execMergeGlobalLabel(maps map[string]string) map[string]stri
 		}
 		// 如果是全局标签, 则加入到全局, 并移除
 		if key[0:2] == "g_" {
-			t.Global[key[2:]] = value
+			t.Global[key] = value
 			delete(maps, key)
 			continue
 		}
