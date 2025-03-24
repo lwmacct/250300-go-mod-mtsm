@@ -19,13 +19,13 @@ func NewHandler(opts ...handlerOpts) *TsHandler {
 	return t
 }
 
-func WithCleanVector(vector []TsVector) handlerOpts {
+func WithHandlerVector(vector []TsVector) handlerOpts {
 	return func(t *TsHandler) {
 		t.Vector = vector
 	}
 }
 
-func WithCleanMatrix(matrix []TsMatrix) handlerOpts {
+func WithHandlerMatrix(matrix []TsMatrix) handlerOpts {
 	return func(t *TsHandler) {
 		t.Matrix = matrix
 	}
