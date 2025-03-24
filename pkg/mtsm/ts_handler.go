@@ -9,6 +9,7 @@ type TsHandler struct {
 
 type handlerOpts func(*TsHandler)
 
+// NewHandler 创建一个 TsHandler 实例
 func NewHandler(opts ...handlerOpts) *TsHandler {
 	t := &TsHandler{}
 	t.Global = map[string]string{}
@@ -19,18 +20,21 @@ func NewHandler(opts ...handlerOpts) *TsHandler {
 	return t
 }
 
+// WithHandlerVector 设置 Vector 数据
 func WithHandlerVector(vector []TsVector) handlerOpts {
 	return func(t *TsHandler) {
 		t.Vector = vector
 	}
 }
 
+// WithHandlerMatrix 设置 Matrix 数据
 func WithHandlerMatrix(matrix []TsMatrix) handlerOpts {
 	return func(t *TsHandler) {
 		t.Matrix = matrix
 	}
 }
 
+// ToTv 将 Matrix 和 Vector 的 Value 字段转换为 Valuet 和 Valuev 切片
 func (t *TsHandler) ToTv() *TsHandler {
 	for i := range t.Matrix {
 		t.Matrix[i].ValueToTv()
@@ -41,7 +45,8 @@ func (t *TsHandler) ToTv() *TsHandler {
 	return t
 }
 
-func (t *TsHandler) ClipLabels() *TsHandler {
+// MergeGlobalLabel 将前缀 "g_" 标签加入到全局, 并移除 __name__ 标签
+func (t *TsHandler) MergeGlobalLabel() *TsHandler {
 	for i := range t.Vector {
 		t.Metrics = t.Vector[i].Metric["__name__"]
 		t.Vector[i].Metric = t.mergeGlobalLabel(t.Vector[i].Metric)
