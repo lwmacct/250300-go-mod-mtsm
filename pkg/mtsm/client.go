@@ -214,14 +214,9 @@ func (c *Client) ApiDeleteSeries(body string) (*api_delete_series, error) {
 
 // Close 关闭客户端并释放资源
 func (c *Client) Close() {
-	// 关闭底层连接
-	c.config.resty.SetCloseConnection(true)
+	c.config.resty.Clone()
 }
 
-func (t *Client) GetConfig() *clientConfig {
-	return t.config
-}
-
-func (t *Client) GetClient() *Client {
-	return t
+func (t *Client) GetResty() *resty.Client {
+	return t.config.resty
 }
