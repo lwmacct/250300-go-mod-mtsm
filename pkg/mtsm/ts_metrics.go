@@ -14,6 +14,14 @@ type TsMetrics struct {
 	Timestamps []int64           `json:"timestamps"`
 }
 
+func (m *TsMetrics) Init(metric map[string]string) {
+	if m.Metric == nil || m.Values == nil || m.Timestamps == nil {
+		m.Metric = make(map[string]string)
+		m.Values = make([]float64, 0)
+		m.Timestamps = make([]int64, 0)
+	}
+}
+
 // timestamp 为毫秒 UnixMilli
 func (m *TsMetrics) AddValue(value float64, timestamp int64) {
 	m.Values = append(m.Values, value)
