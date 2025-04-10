@@ -7,12 +7,12 @@ import (
 type api_label_values struct {
 	Status string   `json:"status"`
 	Data   []string `json:"data"`
-	client *Client
+	client *TsClient
 }
 
 func (t *api_label_values) request(labelName string, params map[string]string) error {
 	url := fmt.Sprintf("/prometheus/api/v1/label/%s/values", labelName)
-	resp, err := t.client.config.resty.R().
+	resp, err := t.client.resty.R().
 		SetHeader("Accept", "application/json").
 		SetResult(t).
 		SetQueryParams(params).

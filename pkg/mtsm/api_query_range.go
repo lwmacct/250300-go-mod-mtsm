@@ -14,12 +14,12 @@ type api_query_range struct {
 		SeriesFetched     string `json:"seriesFetched"`
 		ExecutionTimeMsec int    `json:"executionTimeMsec"`
 	} `json:"stats"`
-	client *Client
+	client *TsClient
 }
 
 func (t *api_query_range) request(params map[string]string) error {
 	url := "/prometheus/api/v1/query_range"
-	resp, err := t.client.config.resty.R().
+	resp, err := t.client.resty.R().
 		SetHeader("Accept", "application/json").
 		SetQueryParams(params).
 		SetResult(t).

@@ -15,12 +15,12 @@ type api_query struct {
 		ExecutionTimeMsec int    `json:"executionTimeMsec"`
 	} `json:"stats"`
 
-	client *Client
+	client *TsClient
 }
 
 func (t *api_query) request(params map[string]string) error {
 	url := "/prometheus/api/v1/query"
-	resp, err := t.client.config.resty.R().
+	resp, err := t.client.resty.R().
 		SetHeader("Accept", "application/json").
 		SetQueryParams(params).
 		SetResult(t).
