@@ -66,10 +66,9 @@ tasks:
             echo "Asia/Shanghai" > /etc/timezone; \
             echo;
         WORKDIR /apps/data
-        COPY .local/bin/{{.GO_MODE_APP}}-{{.VERSION}} /usr/local/bin/{{.GO_MODE_APP}}
-
+        COPY .local/bin/{{.GO_MODE_APP}}-{{.VERSION}} /usr/local/bin/app
         ENTRYPOINT ["tini", "--"]
-        CMD ["{{.GO_MODE_APP}}", "version", "run"]
+        CMD ["app", "version", "run"]
 
         LABEL org.opencontainers.image.source={{.GIT_SOURCE}}
         LABEL org.opencontainers.image.description="{{.GO_MODE_APP}}"
@@ -79,12 +78,17 @@ tasks:
         docker tag {{.IMAGE}} {{.REGISTRY}}/{{.IMAGE}}
         docker push {{.REGISTRY}}/{{.IMAGE}}
 
-  run:cli:
-    desc: "先编译再运行"
+  build:
+    desc: "基础编译"
     silent: true
-    aliases: [run]
     cmds:
       - go build -ldflags "{{.GO_BUILD_LDFLAGS_X}}" -o {{.GO_BUILD_PATH}} .
+
+  run:
+    desc: "先编译再运行"
+    silent: true
+    deps:
+      - task: build
+    cmds:
       - |
-        export ACF_SHOW_TEST=1
         {{.GO_BUILD_PATH}} {{.CLI_ARGS}}
