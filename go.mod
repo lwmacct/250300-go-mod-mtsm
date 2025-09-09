@@ -1,6 +1,6 @@
 module github.com/lwmacct/250300-go-mod-mtsm
 
-go 1.24.0
+go 1.25.1
 
 retract [v0.0.0, v0.0.14]
 
